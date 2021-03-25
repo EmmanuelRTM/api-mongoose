@@ -1,6 +1,6 @@
 name: API Mongose V1
 
-on: [push]
+on: [push, pull_request]
 #cuando se va a ejecutar el workflow
 
 
