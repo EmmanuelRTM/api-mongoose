@@ -22,15 +22,15 @@ jobs:
     - name: Build image Docker
     #nombra el paso en el que estas
 
-    - run: docker build . --file Dokcerfile --tag api-mongoose-v1
+      run: docker build . --file Dokcerfile --tag api-mongoose-v1
     #ejcuta un comando especifico
   test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: Test API
-    - uses: actions/setup-node@v1
-    - with:
+      uses: actions/setup-node@v1
+      with:
         node-modules: '12.x'
     - run : npm ci
     - run : npm test
