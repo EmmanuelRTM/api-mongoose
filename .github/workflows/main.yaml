@@ -1,0 +1,36 @@
+name: API Mongose V1
+
+on: [push]
+#cuando se va a ejecutar el workflow
+  push:
+    branches: [ $default-branch ]
+  pull_request:
+    branches: [ $default-branch ]
+
+jobs:
+#stages ->los procesos de CIq que tiene que hacer el workflow, hace dos cosas:
+#compilar -->> build y testear
+  build:
+
+    runs-on: ubuntu-latest
+#aqui les digo a mi CI  en donde se va a ejecutar
+    
+    steps:
+    #los pasos que tengo que hacer para que mi build funcione
+    - uses: actions/checkout@v2
+    #version de github actions va a ocupar
+    - name: Build image Docker
+    #nombra el paso en el que estas
+
+    - run: docker build . --file Dokcerfile --tag api-mongoose-v1
+    #ejcuta un comando especifico
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Test API
+    - uses: actions/setup-node@v1
+    - with:
+        node-modules: '12.x'
+    - run : npm ci
+    - run : npm test
