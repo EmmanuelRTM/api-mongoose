@@ -2,10 +2,7 @@ name: API Mongose V1
 
 on: [push]
 #cuando se va a ejecutar el workflow
-  push:
-    branches: [ $default-branch ]
-  pull_request:
-    branches: [ $default-branch ]
+
 
 jobs:
 #stages ->los procesos de CIq que tiene que hacer el workflow, hace dos cosas:
