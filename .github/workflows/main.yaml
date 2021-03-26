@@ -19,7 +19,7 @@ jobs:
     - name: Build image Docker
     #nombra el paso en el que estas
 
-      run: docker build . --file Dokcerfile --tag api-mongoose-v1
+      run: docker build . --file Dockerfile --tag api-mongoose-v1
     #ejcuta un comando especifico
   test:
     runs-on: ubuntu-latest
