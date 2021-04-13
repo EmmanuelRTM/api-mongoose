@@ -6,7 +6,8 @@ const UserController = require('./controllers/UserController');
 const app = express();
 //const MONGO_URI=`mongodb://db:27017/${process.env.MONGO_NAME}`
 const MONGO_URI="mongodb+srv://mario:test123@cluster0.ut8iw.mongodb.net/apimongo?retryWrites=true&w=majority"
-const manageFiles= require('./middlewares/manageFiles')
+const manageFiles= require('./middlewares/manageFiles');
+const { PROTOCOL_REGEX } = require('@google-cloud/storage/build/src/storage');
 const storage = process.env.NODE_ENV === "production" 
 ? multer.memoryStorage()
 : multer.diskStorage({
@@ -79,7 +80,10 @@ app.patch('/users',[mult.single('photo'),manageFiles] ,UserController.update)
 
 app.delete('/users/:id', UserController.remove)
 
-app.listen(3000,() =>{
+
+const port = process.env.PORT || 3000
+
+app.listen(port,() =>{
     console.log("Server ready 🚀!!!")
 })
 
