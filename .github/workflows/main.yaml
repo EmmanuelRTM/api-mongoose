@@ -1,7 +1,10 @@
 name: API Mongose V1
 
-on: [push, pull_request]
-#cuando se va a ejecutar el workflow
+on:
+  push:
+    branches:
+      - master
+#cuando se va a ejecutar el workflow--usando gitflow
 
 
 jobs:
@@ -11,15 +14,31 @@ jobs:
 
     runs-on: ubuntu-latest
 #aqui les digo a mi CI  en donde se va a ejecutar
-    
     steps:
+      - uses: actions/checkout@v2
+      - name: Login al Herolku Registry
+        env:
+            HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:login
+      - name: Build & push de mi imagen
+        env:
+            HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: docker build . --tag api-mongoose-v1 -f docker/prod/Dockerfile
+        run: docker tag api-mongoose-v1 registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
+        run: docker push registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
+      - name: Release
+        env:
+            HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:release -a ${{ secrets.HEROKU_APP_NAME }} web
+
+          #esto de abajo es antes de cambios antes del ejemplo de PRODUCION
     #los pasos que tengo que hacer para que mi build funcione
-    - uses: actions/checkout@v2
+    #- uses: actions/checkout@v2
     #version de github actions va a ocupar
-    - name: Build image Docker
+    #- name: Build image Docker
     #nombra el paso en el que estas
 
-      run: docker build . --file Dockerfile --tag api-mongoose-v1
+    #  run: docker build . --file Dockerfile --tag api-mongoose-v1
     #ejcuta un comando especifico
   test:
     runs-on: ubuntu-latest
